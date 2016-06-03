@@ -1,0 +1,9 @@
+<div class="search-directive">
+  <youtube-directive ng-if="videoAvailable()"></youtube-directive>
+  <searchbar-directive></searchbar-directive>
+  <ul ng-if="displayResults.length">
+    <li ng-repeat="item in displayResults">
+      <searchresult-directive result='item'></searchresult-directive>
+    </li>
+  </ul>
+</div>
