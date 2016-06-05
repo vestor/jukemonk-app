@@ -1,6 +1,5 @@
 /build/
 /benchpress-build/
-.DS_Store
 gen_docs.disable
 test.disable
 regression/temp*.html
@@ -36,3 +35,4 @@ sandbox
 test/out-fixtures/*
 test/watch-*.txt
 gulp.1
+/app/js/template.js
