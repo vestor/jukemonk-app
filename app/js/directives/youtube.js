@@ -17,29 +17,7 @@ function YoutubeDirective($log,$window, $rootScope, $interval) {
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-      var player;
-
-      $window.onYouTubeIframeAPIReady = function() {
-
-        player = new YT.Player(element.children()[0], {
-          playerVars: {
-            autoplay: 1,
-            html5: 1,
-            modesbranding: 0,
-            'iv_load_policy' : 3,
-            showinfo: 1,
-            controls: 1,
-            events:{
-              'onStateChange': onPlayerStateChange
-            }
-          },
-
-          height: scope.height,
-          width: scope.width,
-          videoId: scope.videoid,
-
-        });
-      }
+      var player;      
 
 
       scope.$watch('height + width', function(newValue, oldValue) {
@@ -60,7 +38,8 @@ function YoutubeDirective($log,$window, $rootScope, $interval) {
 
         player.cueVideoById(scope.videoid);
         player.playVideo();
-        broadCast = $interval(function () {
+        previousState = player.getPlayerState();
+        scope.broadCast = $interval(function () {
           $rootScope.$broadcast('player-position',{seconds: player.getCurrentTime()});
         }, 1000);
 
@@ -70,11 +49,35 @@ function YoutubeDirective($log,$window, $rootScope, $interval) {
       $window.onPlayerStateChange = function (event) {
         if (event.data == YT.PlayerState.ENDED) {
           $log.log('Playback has stopped');
-          $interval.cancel(broadCast);
+          $interval.cancel(scope.broadCast);
+          $rootScope.$broadcast('player-position',{seconds: player.getCurrentTime()});
         }
       };
 
-      
+      $window.onYouTubeIframeAPIReady = function() {
+
+        player = new YT.Player(element.children()[0], {
+          playerVars: {
+            autoplay: 1,
+            html5: 1,
+            modesbranding: 0,
+            'iv_load_policy' : 3,
+            showinfo: 1,
+            controls: 1
+
+          },
+          events:{
+            'onStateChange': onPlayerStateChange
+          },
+          height: scope.height,
+          width: scope.width,
+          videoId: scope.videoid,
+
+        });
+      }
+
+
+
     }
   };
 }

@@ -28,9 +28,12 @@ function PlayerService($log, SocketService) {
     // return {};
   };
 
-  service.broadcastPlay = function(videoId, userId, videoPosition) {
-    $log.log('Got the video id in play as ' + videoId + userId);
-    SocketService.emit('user played', { videoId: videoId, userId: userId, videoPosition: videoPosition });
+  service.broadcastPlay = function(video) {
+    SocketService.emit('player video', video);
+  };
+
+  service.broadcastChange = function(video) {
+    SocketService.emit('player change', video);
   };
 
 
