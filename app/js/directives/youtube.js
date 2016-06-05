@@ -1,4 +1,4 @@
-function YoutubeDirective($log,$window, $rootScope, $interval) {
+function YoutubeDirective($log,$window, $rootScope, $interval, PlayerService) {
   'ngInject';
   return {
     restrict: 'E',
@@ -17,7 +17,7 @@ function YoutubeDirective($log,$window, $rootScope, $interval) {
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-      var player;      
+      var player;
 
 
       scope.$watch('height + width', function(newValue, oldValue) {
@@ -38,7 +38,6 @@ function YoutubeDirective($log,$window, $rootScope, $interval) {
 
         player.cueVideoById(scope.videoid);
         player.playVideo();
-        previousState = player.getPlayerState();
         scope.broadCast = $interval(function () {
           $rootScope.$broadcast('player-position',{seconds: player.getCurrentTime()});
         }, 1000);
@@ -55,6 +54,8 @@ function YoutubeDirective($log,$window, $rootScope, $interval) {
       };
 
       $window.onYouTubeIframeAPIReady = function() {
+
+        PlayerService.playerJoin($rootScope.userId);
 
         player = new YT.Player(element.children()[0], {
           playerVars: {
