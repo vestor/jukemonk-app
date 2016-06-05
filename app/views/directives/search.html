@@ -1,5 +1,6 @@
 <div class="search-directive">
-  <youtube-directive ng-if="videoAvailable()"></youtube-directive>
+  <span>{{getListenerCount()}}</span>
+  <youtube-directive width="600" height="400" videoid="currentlyPlaying" ></youtube-directive>
   <searchbar-directive></searchbar-directive>
   <ul ng-if="displayResults.length">
     <li ng-repeat="item in displayResults">

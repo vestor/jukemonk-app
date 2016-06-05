@@ -1,4 +1,4 @@
-function PlayerCtrl($scope,  $rootScope) {
+function PlayerCtrl($log, $scope,  $rootScope, PlayerService) {
   'ngInject';
 
   //TODO This needs to be populated according to the authenticated user's id.
@@ -11,22 +11,23 @@ function PlayerCtrl($scope,  $rootScope) {
 
   $scope.playMe = function(videoId) {
     console.log('Trying to play the video : ' + videoId);
-    // PlayerService.playThis({videoId : videoId, userId : $scope.userId})
-    // .then(function(){
-    //   console.log('Started playing video : ' + videoId);
-    // })
     $rootScope.currentlyPlaying = videoId;
+    PlayerService.broadcastPlay({videoId : videoId, userId : $scope.userId});
 
   };
 
   $scope.queueMe = function(videoId){
     console.log('Trying to queue the video : ' + videoId);
-    // PlayerService.queueThis({videoId : videoId, userId: $scope.userId})
-    // .then(function(){
-    //   console.log('Queued this video : ' + videoId);
-    // })
-
   };
+
+  $rootScope.listenerCount = function(){
+    return  PlayerService.getListenerCount();
+  }
+
+  $rootScope.$on('player-position', function(ev, args) {
+    $log.log('Event recieved ' + ev);
+    $log.log(args);    
+  })
 
 }
 

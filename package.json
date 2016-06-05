@@ -1,23 +1,4 @@
 {
-  "name": "angularjs-gulp-browserify-boilerplate",
-  "version": "1.5.9",
-  "author": "Jake Marsh <jakemmarsh@gmail.com>",
-  "description": "Boilerplate using AngularJS, SASS, Gulp, and Browserify while also utilizing best practices.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate.git"
-  },
-  "keywords": [
-    "express",
-    "gulp",
-    "browserify",
-    "angular",
-    "sass",
-    "karma",
-    "jasmine",
-    "protractor",
-    "boilerplate"
-  ],
   "private": false,
   "engines": {
     "node": "~4.2.x"
@@ -74,7 +55,8 @@
     "uglifyify": "^3.0.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.7.0"
+    "watchify": "^3.7.0",
+    "socket.io-client": ">=1.x.x"
   },
   "scripts": {
     "test": "./node_modules/.bin/gulp test"

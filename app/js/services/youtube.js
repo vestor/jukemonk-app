@@ -18,7 +18,7 @@ function YoutubeService($log ,$http, AppSettings) {
 
   service.get = function(term) {
 
-    var paramObj = {'part': 'snippet', 'q': term, 'key' : AppSettings.youtube.key}
+    var paramObj = {'part': 'snippet', 'q': term, 'key' : AppSettings.youtube.key, 'type' : 'video'}
     return new Promise((resolve, reject) => {
       $http.get(urlToHit, {params : paramObj}).success((data) => {
         resolve(data);
@@ -29,7 +29,7 @@ function YoutubeService($log ,$http, AppSettings) {
   };
 
   service.loadMore = function(pageToken) {
-    var paramObj = {'part': 'snippet', 'key' : AppSettings.youtube.key, 'pageToken' : pageToken}
+    var paramObj = {'part': 'snippet', 'key' : AppSettings.youtube.key, 'pageToken' : pageToken, 'type' : 'video'}
     return new Promise((resolve, reject) => {
       $http.get(urlToHit, {params : paramObj}).success((data) => {
         resolve(data);

@@ -6,10 +6,12 @@ import onConfig  from './on_config';
 import onRun     from './on_run';
 import 'angular-ui-router';
 import './templates';
+import './providers';
 import './filters';
 import './controllers';
 import './services';
 import './directives';
+
 
 // create and bootstrap application
 const requires = [
@@ -18,7 +20,8 @@ const requires = [
   'app.filters',
   'app.controllers',
   'app.services',
-  'app.directives'
+  'app.directives',
+  'app.providers'
 ];
 
 // mount on window for testing

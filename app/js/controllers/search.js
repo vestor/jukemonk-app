@@ -7,6 +7,8 @@ function SearchCtrl($scope, YoutubeService) {
   $scope.searchResult = {};
   $scope.displayResults = [];
 
+
+
   $scope.search = function() {
     YoutubeService.get($scope.searchObject.query).then(function(data) {
       console.log('Loaded ' + data.pageInfo.resultsPerPage + ' results from API');
