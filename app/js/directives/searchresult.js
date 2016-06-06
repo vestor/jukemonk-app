@@ -8,14 +8,14 @@ function SearchresultDirective($rootScope, PlayerService) {
       result : '='
     },
     link: function(scope) {
-      scope.playMe = function(videoId){
-        console.log('Trying to play the video : ' + videoId);
-        $rootScope.currentlyPlaying = videoId;
-        PlayerService.broadcastPlay({videoId : videoId, userId : $rootScope.userId});
+      scope.playMe = function(video){
+        console.log('Trying to play the video : ' + video.id);
+        $rootScope.currentlyPlaying = {id : video.id, thumbnailUrl: video.thumbnailUrl};
+        PlayerService.broadcastPlay({videoId : video.id, playerId : $rootScope.playerId, thumbnailUrl: video.thumbnailUrl});
       };
 
-      scope.queueMe = function(videoId){
-        console.log('Trying to queue the video : ' + videoId);
+      scope.queueMe = function(video){
+        console.log('Trying to queue the video : ' + video.id);
       };
 
     }

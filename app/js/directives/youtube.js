@@ -6,7 +6,9 @@ function YoutubeDirective($log,$window, $rootScope, $interval, PlayerService) {
     scope: {
       height: '@',
       width: '@',
-      videoid: '='
+      isplayer: '@',
+      videoid: '=',
+      seekto: '='
     },
 
     template: '<div></div>',
@@ -29,7 +31,7 @@ function YoutubeDirective($log,$window, $rootScope, $interval, PlayerService) {
 
       });
 
-      scope.$watch('videoid', function(newValue, oldValue) {
+      scope.$watch('videoid + seekto', function(newValue, oldValue) {
         $log.log(newValue);
         $log.log(oldValue);
         if (newValue == oldValue || !newValue || newValue == -1) {
@@ -38,15 +40,22 @@ function YoutubeDirective($log,$window, $rootScope, $interval, PlayerService) {
 
         player.cueVideoById(scope.videoid);
         player.playVideo();
-        scope.broadCast = $interval(function () {
-          $rootScope.$broadcast('player-position',{seconds: player.getCurrentTime()});
-        }, 1000);
+
+        if(scope.seekto){
+          player.seekTo(scope.seekto, true);
+        }
+
+        if(scope.isplayer){
+          scope.broadCast = $interval(function () {
+            $rootScope.$broadcast('player-position',{seconds: player.getCurrentTime()});
+          }, 1000);
+        }
 
 
       });
 
       $window.onPlayerStateChange = function (event) {
-        if (event.data == YT.PlayerState.ENDED) {
+        if (event.data == YT.PlayerState.ENDED && scope.isplayer) {
           $log.log('Playback has stopped');
           $interval.cancel(scope.broadCast);
           $rootScope.$broadcast('player-position',{seconds: player.getCurrentTime()});
@@ -55,7 +64,11 @@ function YoutubeDirective($log,$window, $rootScope, $interval, PlayerService) {
 
       $window.onYouTubeIframeAPIReady = function() {
 
-        PlayerService.playerJoin($rootScope.userId);
+
+        if(scope.isplayer){
+          PlayerService.playerJoin($rootScope.playerId);
+        }
+
 
         player = new YT.Player(element.children()[0], {
           playerVars: {

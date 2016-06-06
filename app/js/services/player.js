@@ -1,7 +1,9 @@
 function PlayerService($log, $rootScope, SocketService) {
   'ngInject';
-  $rootScope.userId = -1;
-  $rootScope.currentlyPlaying = -1;
+
+  $rootScope.playerId = -1;
+  $rootScope.currentlyPlaying = undefined;
+
   const service = {};
   var ps = this;
   ps.listenerCount = 0;
@@ -21,17 +23,18 @@ function PlayerService($log, $rootScope, SocketService) {
     return ps.listenerCount;
   }
 
-  service.playerJoin = function(userId){
-    $log.log('Joining player with userId ' + userId);
-    SocketService.emit('player-joined',{userId: userId});
+  service.playerJoin = function(playerId){
+    $log.log('Joining player with playerId ' + playerId);
+    SocketService.emit('player-joined',{playerId: playerId});
   }
 
-  service.broadcastQueue = function(videoId, userId) {
-    $log.log('Got the video id in queue as ' + videoId + userId);
+  service.broadcastQueue = function(videoId, playerId) {
+    $log.log('Got the video id in queue as ' + videoId + playerId);
     // return {};
   };
 
   service.broadcastPlay = function(video) {
+    console.log('Emitting play', video);
     SocketService.emit('player-video', video);
   };
 

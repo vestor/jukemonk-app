@@ -1,6 +1,6 @@
 <div class="search-directive">
   <listener-count></listener-count>
-  <youtube-directive width="600" height="400" videoid="currentlyPlaying" ></youtube-directive>
+  <youtube-directive isplayer="true" width="600" height="400" videoid="currentlyPlaying.id" ></youtube-directive>
   <searchbar-directive></searchbar-directive>
   <ul ng-if="displayResults.length" ng-controller="PlayerCtrl as pc">
     <li ng-repeat="item in displayResults">
