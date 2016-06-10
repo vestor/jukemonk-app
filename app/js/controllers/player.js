@@ -13,6 +13,7 @@ function PlayerCtrl($log, $scope,  $rootScope, PlayerService) {
     var obj = $rootScope.currentlyPlaying;
     obj['playerId'] =  $rootScope.playerId;
     obj['position'] = args.seconds
+    obj['playing'] = !args.stopped
     PlayerService.broadcastPlay(obj);
   });
 

@@ -4,10 +4,6 @@ function ListenerCtrl($log, $scope,  $rootScope, ListenerService) {
 
   $log.log('Registering the listener');
   ListenerService.registerListener();
-
-  $scope.startListening = function(playerId){
-    ListenerService.joinListener(playerId);
-  };
 }
 
 export default {

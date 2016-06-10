@@ -3,8 +3,8 @@ function ListenerService($log, $rootScope, SocketService) {
   const service = {};
 
   $rootScope.currentlyPlaying = undefined;
-  $rootScope.lplayerId = -1;
-  $rootScope.listenerId = -1;
+  $rootScope.lplayerId = '-1';
+  $rootScope.listenerId = '-1';
 
   service.registerListener = function(){
     $log.log('Registering listener with listenerId ' + $rootScope.listenerId);
@@ -19,7 +19,12 @@ function ListenerService($log, $rootScope, SocketService) {
 
   SocketService.on('player-list', function(data){
     $log.log('Recieved a list of players from server',data);
-    $rootScope.$broadcast('player-list',{list : data});
+    $rootScope.$broadcast('player-list',data);
+  });
+
+  SocketService.on('player-stat', function(data){
+    console.log('Recieved player data',data);
+    $rootScope.currentlyPlaying = data;
   });
 
   return service;

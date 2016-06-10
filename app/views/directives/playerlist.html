@@ -1,5 +1,5 @@
 <ul>
- <li ng-repeat="(id,data) in playerList">
-   <div>{{data}}</div>
+ <li ng-repeat="(id,data) in playerList" ng-click="startListening(id)">
+   <img ng-class="{notplaying : !data.playing}" src="{{data.thumbnailUrl}}"></img>
  </li>
 </ul>

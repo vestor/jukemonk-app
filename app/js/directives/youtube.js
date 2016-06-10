@@ -58,7 +58,7 @@ function YoutubeDirective($log,$window, $rootScope, $interval, PlayerService) {
         if (event.data == YT.PlayerState.ENDED && scope.isplayer) {
           $log.log('Playback has stopped');
           $interval.cancel(scope.broadCast);
-          $rootScope.$broadcast('player-position',{seconds: player.getCurrentTime()});
+          $rootScope.$broadcast('player-position',{seconds: player.getCurrentTime(), stopped : true});
         }
       };
 

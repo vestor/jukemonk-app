@@ -7,3 +7,8 @@ body {
   background-color: $background--light;
   padding: $half-space;
 }
+
+.notplaying {
+    opacity: 0.4;
+    filter: alpha(opacity=40); /* msie */
+}

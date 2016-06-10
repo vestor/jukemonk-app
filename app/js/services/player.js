@@ -1,7 +1,7 @@
 function PlayerService($log, $rootScope, SocketService) {
   'ngInject';
 
-  $rootScope.playerId = -1;
+  $rootScope.playerId = Math.floor((Math.random() * 10) + 1)+'';
   $rootScope.currentlyPlaying = undefined;
 
   const service = {};
@@ -37,6 +37,11 @@ function PlayerService($log, $rootScope, SocketService) {
     console.log('Emitting play', video);
     SocketService.emit('player-video', video);
   };
+
+  service.broadcastSeek = function(video) {
+    console.log('Emitting see',video);
+
+  }
 
   service.broadcastChange = function(video) {
     SocketService.emit('player-change', video);
