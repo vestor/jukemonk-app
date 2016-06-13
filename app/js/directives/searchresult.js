@@ -10,8 +10,8 @@ function SearchresultDirective($rootScope, PlayerService) {
     link: function(scope) {
       scope.playMe = function(video){
         console.log('Trying to play the video : ' + video.id);
-        $rootScope.currentlyPlaying = {id : video.id, thumbnailUrl: video.thumbnailUrl};
-        PlayerService.broadcastPlay({videoId : video.id, playerId : $rootScope.playerId, thumbnailUrl: video.thumbnailUrl});
+        $rootScope.currentlyPlaying = {videoId : video.id, thumbnailUrl: video.thumbnailUrl};
+        PlayerService.broadcastPlay({videoId : video.id, playerId : $rootScope.playerId, thumbnailUrl: video.thumbnailUrl, type: 'NEW_VIDEO', playing : true});
       };
 
       scope.queueMe = function(video){

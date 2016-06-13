@@ -31,28 +31,37 @@ function YoutubeDirective($log,$window, $rootScope, $interval, PlayerService) {
 
       });
 
-      scope.$watch('videoid + seekto', function(newValue, oldValue) {
+      $rootScope.$on('start-listening', function(event,data){
+        console.log(event);
+        scope.videoid = data.videoId;
+        scope.seekto = data.position;
+        playVideo();
+      });
+
+      scope.$watch('videoid+seekto', function(newValue, oldValue) {
         $log.log(newValue);
         $log.log(oldValue);
-        if (newValue == oldValue || !newValue || newValue == -1) {
+        if (newValue == oldValue) {
           return;
         }
+        playVideo();
 
+      });
+
+      var playVideo = function(){
         player.cueVideoById(scope.videoid);
         player.playVideo();
-
         if(scope.seekto){
           player.seekTo(scope.seekto, true);
         }
-
         if(scope.isplayer){
           scope.broadCast = $interval(function () {
             $rootScope.$broadcast('player-position',{seconds: player.getCurrentTime()});
           }, 1000);
         }
+      }
 
 
-      });
 
       $window.onPlayerStateChange = function (event) {
         if (event.data == YT.PlayerState.ENDED && scope.isplayer) {

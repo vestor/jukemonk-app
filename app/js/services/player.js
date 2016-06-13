@@ -2,11 +2,25 @@ function PlayerService($log, $rootScope, SocketService) {
   'ngInject';
 
   $rootScope.playerId = Math.floor((Math.random() * 10) + 1)+'';
-  $rootScope.currentlyPlaying = undefined;
-
+  $rootScope.currentlyPlaying = {};
   const service = {};
   var ps = this;
   ps.listenerCount = 0;
+
+  $rootScope.listenerCount = function(){
+    return  PlayerService.getListenerCount();
+  }
+
+  $rootScope.$on('player-position', function(ev, args) {
+    var obj = $rootScope.currentlyPlaying;
+    obj['playerId'] =  $rootScope.playerId;
+    obj['position'] = args.seconds
+    obj['playing'] = !args.stopped || args.stopped == undefined
+    obj['type'] = !args.stopped || args.stopped == undefined ? 'PLAYING' : 'STOPPED';
+    service.broadcastPlay(obj);
+  });
+
+
 
   SocketService.on('player-registered', function(data){
     $log.log('Player registration complete with room ' + data.room);
@@ -43,8 +57,10 @@ function PlayerService($log, $rootScope, SocketService) {
 
   }
 
-  service.broadcastChange = function(video) {
-    SocketService.emit('player-change', video);
+  service.broadcastStop = function(video) {
+    video['playing'] = false;
+    video['type'] = 'STOPPED';
+    service.broadcastPlay(video);
   };
 
 
